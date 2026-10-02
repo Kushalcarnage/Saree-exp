@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Add a saree · Vijayalakshmi Silk Palace</title>
+<style>
+  :root{--wine:#6B0F2A;--gold:#B8872B;--ink:#2B1B20;--muted:#76646A;--line:#e7d9cf;--paper:#FFFDF9}
+  *{box-sizing:border-box} body{margin:0;font:15px/1.5 system-ui,'Segoe UI',sans-serif;color:var(--ink);background:var(--paper)}
+  header{background:var(--wine);color:#F6E3C0;padding:18px 24px} header h1{margin:0;font:600 24px Georgia,serif} header p{margin:4px 0 0;opacity:.85}
+  main{display:grid;grid-template-columns:minmax(0,1.1fr) minmax(0,.9fr);gap:28px;padding:24px;max-width:1300px;margin:0 auto}
+  @media (max-width:900px){main{grid-template-columns:1fr}}
+  .step{border:1px solid var(--line);border-radius:14px;padding:18px;margin-bottom:18px;background:#fff}
+  .step h2{margin:0 0 10px;font:600 18px Georgia,serif;color:var(--wine)}
+  .step h2 span{display:inline-grid;place-items:center;width:26px;height:26px;border-radius:50%;background:var(--wine);color:#fff;font:600 14px system-ui;margin-right:8px}
+  .stage{position:relative;display:inline-block;max-width:100%;touch-action:none;cursor:crosshair;background:#f3ece4;border-radius:8px}
+  .stage canvas{display:block;max-width:100%;height:auto;border-radius:8px}
+  .modes{display:flex;gap:8px;flex-wrap:wrap;margin:10px 0}
+  .modes button{border:2px solid var(--line);background:#fff;border-radius:999px;padding:8px 14px;cursor:pointer;font:inherit}
+  .modes button.on.b{border-color:#d4a017;background:#fff6dc} .modes button.on.r{border-color:#c0182c;background:#ffe9ec}
+  label{display:block;font-size:13px;color:var(--muted);margin:10px 0 4px}
+  input,select,textarea{width:100%;font:inherit;padding:9px 11px;border:1px solid var(--line);border-radius:9px;background:#fff;color:inherit}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  .checks{display:flex;gap:14px;flex-wrap:wrap} .checks label{display:flex;gap:6px;align-items:center;margin:0;color:var(--ink);font-size:14px} .checks input{width:auto}
+  .previews{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+  .previews canvas{width:100%;border-radius:8px;border:1px solid var(--line);background:#f3ece4}
+  textarea#code{font:12.5px/1.45 ui-monospace,Menlo,Consolas,monospace;min-height:190px}
+  .btn{display:inline-block;border:0;border-radius:999px;padding:11px 20px;font:600 14px system-ui;cursor:pointer;text-decoration:none}
+  .btn.wine{background:var(--wine);color:#fff} .btn.gold{background:linear-gradient(#E6C877,#B8872B);color:#2a0a12}
+  .hint{font-size:13px;color:var(--muted)} ol{margin:6px 0 0;padding-left:20px}
+  .ok{color:#1d7a3a;font-weight:600}
+</style>
+</head>
+<body>
+<header><h1>Add a saree to the website</h1><p>Choose a photo, mark the fabric, fill in the details, then copy the result into index.html. No coding needed.</p></header>
+<main>
+  <div>
+    <div class="step">
+      <h2><span>1</span>Choose the saree photo</h2>
+      <input type="file" accept="image/*" id="file">
+      <p class="hint">Best: the saree laid flat or folded, straight from above, in daylight, showing the body fabric and the border.</p>
+    </div>
+    <div class="step">
+      <h2><span>2</span>Mark the fabric for the try-on mirror</h2>
+      <div class="modes"><button class="b on" data-m="body">1 · Drag over plain body fabric</button><button class="r" data-m="border">2 · Drag over the border</button></div>
+      <div class="stage" id="stage"><canvas id="cv" width="560" height="700"></canvas></div>
+      <div class="checks" style="margin-top:10px"><label><input type="checkbox" id="vert"> The border runs up–down in this photo</label><label><input type="checkbox" id="noborder"> No border visible</label></div>
+      <p class="hint">Yellow box = body fabric (avoid folds, tags and hands). Red box = the border band, from where it meets the body to its outer edge.</p>
+    </div>
+  </div>
+  <div>
+    <div class="step">
+      <h2><span>3</span>Check the fabric preview</h2>
+      <div class="previews"><div><canvas id="pb" width="240" height="240"></canvas><p class="hint">Body fabric (should look even)</p></div><div><canvas id="pr" width="480" height="64"></canvas><p class="hint">Border strip</p></div></div>
+    </div>
+    <div class="step">
+      <h2><span>4</span>Saree details</h2>
+      <div class="row"><div><label>Code (unique, e.g. p17)</label><input id="id" value="p17"></div><div><label>Price (leave empty for “Price on request”)</label><input id="price" type="number" placeholder="e.g. 18500"></div></div>
+      <label>Name</label><input id="name" placeholder="e.g. Royal Blue Kanjivaram, Gold Temple Border">
+      <div class="row"><div><label>Collection</label><select id="col"><option value="silk">Silk sarees</option><option value="brocade">Brocade silks</option></select></div>
+        <div><label>Colour group</label><select id="fam"><option value="red">Reds &amp; pinks</option><option value="jewel">Jewel tones</option><option value="earthy">Yellows &amp; earthy</option><option value="pastel">Pastels</option><option value="neutral">Greys &amp; neutrals</option></select></div></div>
+      <label>Good for</label>
+      <div class="checks" id="occ"><label><input type="checkbox" value="wedding" checked> Wedding</label><label><input type="checkbox" value="festive" checked> Festive</label><label><input type="checkbox" value="party"> Party</label><label><input type="checkbox" value="office"> Office</label></div>
+      <label>Body description (colour, weave, motifs)</label><input id="body" placeholder="e.g. royal blue silk with small gold buttas">
+      <label>Border description</label><input id="border" placeholder="e.g. gold zari temple border with a red pallu">
+      <label>Badge (optional)</label><select id="badge"><option value="">None</option><option>New</option><option>Bestseller</option></select>
+    </div>
+    <div class="step">
+      <h2><span>5</span>Save and add to the website</h2>
+      <button class="btn gold" id="dl">Download website photo</button>
+      <button class="btn wine" id="copy">Copy saree entry</button> <span id="copied"></span>
+      <label>Saree entry</label><textarea id="code" readonly></textarea>
+      <ol class="hint">
+        <li>Put the downloaded photo into the <b>media</b> folder of the website.</li>
+        <li>Open <b>index.html</b> in a text editor, find <code>window.SAREES = [</code> and paste the copied entry on the next line.</li>
+        <li>Save and upload index.html and the photo to the hosting.</li>
+      </ol>
+    </div>
+  </div>
+</main>
+<script>
+(function(){
+  const $=s=>document.querySelector(s), cv=$('#cv'), c=cv.getContext('2d');
+  let img=null, crop=null, mode='body', boxes={body:null,border:null}, drag=null;
+  const W=560,H=700;
+  // crop the chosen photo to the site's 4:5 portrait format
+  function load(f){ const im=new Image(); im.onload=()=>{ img=im; const r=W/H, ir=im.width/im.height; let sw,sh;
+      if(ir>r){sh=im.height;sw=sh*r;}else{sw=im.width;sh=sw/r;} crop={x:(im.width-sw)/2,y:(im.height-sh)/2,w:sw,h:sh};
+      boxes={body:null,border:null}; draw(); update(); }; im.src=URL.createObjectURL(f); }
+  $('#file').onchange=e=>e.target.files[0]&&load(e.target.files[0]);
+  function draw(){ c.clearRect(0,0,W,H); if(!img){c.fillStyle='#b9a99c';c.font='16px system-ui';c.textAlign='center';c.fillText('Choose a photo in step 1',W/2,H/2);return;}
+    c.drawImage(img,crop.x,crop.y,crop.w,crop.h,0,0,W,H);
+    for(const [k,col] of [['body','#d4a017'],['border','#c0182c']]){const b=boxes[k]; if(!b)continue; c.lineWidth=3;c.strokeStyle=col;c.setLineDash([8,5]);c.strokeRect(b[0]*W,b[1]*H,b[2]*W,b[3]*H);c.setLineDash([]);c.fillStyle=col;c.font='bold 13px system-ui';c.fillText(k==='body'?'Body':'Border',b[0]*W+6,b[1]*H+16);} }
+  draw();
+  const pt=e=>{const r=cv.getBoundingClientRect();return[(e.clientX-r.left)/r.width,(e.clientY-r.top)/r.height];};
+  cv.addEventListener('pointerdown',e=>{if(!img)return;cv.setPointerCapture(e.pointerId);drag=pt(e);});
+  cv.addEventListener('pointermove',e=>{if(!drag)return;const p=pt(e),x=Math.max(0,Math.min(drag[0],p[0])),y=Math.max(0,Math.min(drag[1],p[1]));boxes[mode]=[x,y,Math.min(1,Math.max(drag[0],p[0]))-x,Math.min(1,Math.max(drag[1],p[1]))-y].map(v=>+v.toFixed(3));draw();});
+  cv.addEventListener('pointerup',()=>{if(!drag)return;drag=null;update(); if(mode==='body'&&!boxes.border&&!$('#noborder').checked)setMode('border');});
+  function setMode(m){mode=m;document.querySelectorAll('.modes button').forEach(b=>b.classList.toggle('on',b.dataset.m===m));}
+  document.querySelectorAll('.modes button').forEach(b=>b.onclick=()=>setMode(b.dataset.m));
+  document.querySelectorAll('input,select').forEach(i=>i.addEventListener('input',update));
+  function region(b,tw,th,vert){const q=document.createElement('canvas');q.width=tw;q.height=th;const x=q.getContext('2d');const sx=crop.x+b[0]*crop.w,sy=crop.y+b[1]*crop.h,sw=b[2]*crop.w,sh=b[3]*crop.h;
+    if(vert){x.translate(tw,0);x.rotate(Math.PI/2);x.drawImage(img,sx,sy,sw,sh,0,0,th,tw);}else x.drawImage(img,sx,sy,sw,sh,0,0,tw,th);return q;}
+  function avg(q){const d=q.getContext('2d').getImageData(0,0,q.width,q.height).data;let r=0,g=0,b=0,n=d.length/4;for(let i=0;i<d.length;i+=4){r+=d[i];g+=d[i+1];b+=d[i+2];}
+    return '#'+[r,g,b].map(v=>Math.round(v/n).toString(16).padStart(2,'0')).join('');}
+  function update(){
+    const pb=$('#pb').getContext('2d'),pr=$('#pr').getContext('2d');pb.clearRect(0,0,240,240);pr.clearRect(0,0,480,64);
+    let bodyCol='#888888',borderCol='#6b0f2a';
+    if(img&&boxes.body&&boxes.body[2]>0.01){const q=region(boxes.body,60,60,false);bodyCol=avg(q);
+      for(let i=0;i<4;i++)for(let j=0;j<4;j++){pb.save();pb.translate(i*60+(i%2?60:0),j*60+(j%2?60:0));pb.scale(i%2?-1:1,j%2?-1:1);pb.drawImage(q,0,0);pb.restore();}}
+    const nb=$('#noborder').checked;
+    if(img&&!nb&&boxes.border&&boxes.border[2]>0.01){const q=region(boxes.border,240,64,$('#vert').checked);borderCol=avg(q);pr.drawImage(q,0,0);pr.save();pr.translate(480,0);pr.scale(-1,1);pr.drawImage(q,0,0);pr.restore();}
+    const id=($('#id').value||'p17').trim().replace(/[^a-z0-9_-]/gi,''), occ=[...document.querySelectorAll('#occ input:checked')].map(i=>`'${i.value}'`).join(', ');
+    const esc=s=>(s||'').replace(/\\/g,'').replace(/'/g,'’');
+    const price=$('#price').value?Number($('#price').value):'null', badge=$('#badge').value?` badge: '${$('#badge').value}',`:'';
+    const tex=`tex: { body: [${boxes.body||[0.1,0.1,0.8,0.5]}], border: ${nb||!boxes.border?'null':'['+boxes.border+']'}${$('#vert').checked&&!nb?', borderV: true':''} }`;
+    $('#code').value=`  { id: '${id}', img: '${id}', name: '${esc($('#name').value)||'New saree'}', col: '${$('#col').value}', fam: '${$('#fam').value}', occ: [${occ||"'festive'"}],${badge} price: ${price},
+    body: '${esc($('#body').value)||'silk saree'}', border: '${esc($('#border').value)||'zari border'}',
+    c: { body: '${bodyCol}', border: '${borderCol}', zari: '#d9b54a', blouse: '${borderCol}' }, ${tex} },`;
+  }
+  update();
+  $('#copy').onclick=async()=>{try{await navigator.clipboard.writeText($('#code').value);}catch(e){$('#code').select();document.execCommand('copy');}$('#copied').innerHTML='<span class="ok">Copied</span>';setTimeout(()=>$('#copied').textContent='',2000);};
+  $('#dl').onclick=()=>{if(!img){alert('Choose a photo first');return;}const o=document.createElement('canvas');o.width=W;o.height=H;o.getContext('2d').drawImage(img,crop.x,crop.y,crop.w,crop.h,0,0,W,H);
+    o.toBlob(b=>{const a=document.createElement('a');a.href=URL.createObjectURL(b);a.download=(($('#id').value||'p17').trim())+'.jpg';a.click();},'image/jpeg',0.86);};
+})();
+</script>
+</body>
+</html>
